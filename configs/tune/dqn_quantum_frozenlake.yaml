@@ -1,0 +1,53 @@
+# general parameters
+trial_path:             logs
+trial_name:             dqn_frozenlake
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               12
+num_gpus:               0
+num_samples:            3
+cpus_per_worker:        1
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   FrozenLake-v1
+is_slippery: False
+
+# algorithm parameters
+agent:              dqn_quantum_discrete_state
+total_timesteps:    30000
+num_envs:           1
+seed:               None
+buffer_size:        1000
+gamma:              0.95
+tau:                0.9
+target_network_frequency:   10
+batch_size:         32
+start_e:            1
+end_e:              0.05
+exploration_fraction:   0.35
+learning_starts:        100
+train_frequency:        10
+
+lr_input_scaling:   #0.001  
+  - grid_search
+  - float
+  - [0.001, 0.01]    
+lr_weights:   #0.001
+  - grid_search
+  - float
+  - [0.001, 0.01]    
+lr_output_scaling:   
+  - grid_search
+  - float
+  - [0.001, 0.01]     
+num_qubits:         4
+num_layers:         5
+device:             lightning.qubit
+state_encoding:     binary
+diff_method:        adjoint
+cuda: False
+save_model: True

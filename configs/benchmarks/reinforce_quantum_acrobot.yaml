@@ -1,0 +1,32 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_acrobot
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               1
+num_gpus:               0
+num_samples:  1
+cpus_per_worker:        1
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Acrobot-v1
+
+# algorithm parameters
+agent:              REINFORCE_quantum
+total_timesteps:    200000
+lr_input_scaling:   0.0025
+lr_weights:         0.01
+lr_output_scaling:  0.05
+num_envs:           2
+seed:               42
+gamma:              0.99
+num_qubits:         6
+num_layers:         5
+device:             lightning.qubit
+diff_method:        adjoint
+cuda:               False
+save_model:         False

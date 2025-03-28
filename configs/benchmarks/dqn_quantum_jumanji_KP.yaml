@@ -1,0 +1,46 @@
+# general parameters
+trial_path:             logs
+trial_name:             dqn_kp
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               1
+num_gpus:               0
+ray_num_trial_samples:  1
+cpus_per_worker:        1
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Knapsack-v1
+num_items:          4
+total_budget:       2
+
+# algorithm parameters
+agent:               DQN_quantum_jumanji
+total_timesteps:    200000
+learning_rate:      0.001
+num_envs:           1
+seed:               42
+buffer_size:        10000
+gamma:              0.99
+tau:                1.0
+target_network_frequency:  1
+batch_size:         16
+start_e:            1
+end_e:              0.01
+exploration_fraction:   0.5
+learning_starts:        1000
+train_frequency:        3
+
+
+lr_input_scaling:   0.001     
+lr_weights:   0.001    
+lr_output_scaling:   0.1   
+num_qubits:         4
+num_layers:         5
+device:             lightning.qubit
+diff_method:        adjoint
+cuda: False
+save_model: True

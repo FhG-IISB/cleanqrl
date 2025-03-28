@@ -1,0 +1,26 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_pendulum
+wandb:                  True
+
+# environment parameters
+env_id:   Pendulum-v1
+
+# algorithm parameters
+env_wrapper:        arctan
+agent:              REINFORCE_quantum_continuous_action
+total_timesteps:    1000
+lr_input_scaling:   0.001    
+lr_weights:   0.001    
+lr_output_scaling:   0.1    
+num_envs:           1
+gamma:              0.9
+num_qubits:         3
+num_layers:         5
+ansatz:             hea
+init_method:        uniform
+observables:        global
+device:             lightning.qubit
+diff_method:        adjoint
+cuda: False
+save_model: True

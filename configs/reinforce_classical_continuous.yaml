@@ -1,0 +1,31 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_pendulum
+wandb:                  True
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               4
+num_gpus:               0
+ray_num_trial_samples:  3
+cpus_per_worker:        3
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Pendulum-v1
+
+# algorithm parameters
+agent:                  REINFORCE_classical_continuous
+total_timesteps:        10000
+lr:                     0.001
+  # - grid_search
+  # - float
+  # - [1e-2, 1e-3, 1e-4, 1e-5, 1e-6]    #
+num_envs:           2
+gamma:       0.9       
+  # - grid_search
+  # - float
+  # - [0.9, 0.95, 0.98, 0.99]
+cuda: False
+save_model: True
+wandb: True

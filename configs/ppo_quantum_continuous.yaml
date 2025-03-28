@@ -1,0 +1,49 @@
+# general parameters
+trial_path:             logs
+trial_name:             ppo_pendulum
+wandb:                  True
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               4
+num_gpus:               0
+ray_num_trial_samples:  3
+cpus_per_worker:        3
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Pendulum-v1
+
+# algorithm parameters
+env_wrapper:        arctan
+agent:               PPO_quantum_continuous
+total_timesteps:    1000000
+num_envs:           2
+num_steps:          128
+anneal_lr:          True
+gamma:              0.99
+gae_lambda:         0.95
+num_minibatches:    4
+update_epochs:      4
+norm_adv:           True
+clip_coef:          0.2
+clip_vloss:         True
+ent_coef:           0.01
+vf_coef:            0.5
+max_grad_norm:      0.5
+target_kl:          None
+
+lr_input_scaling:   0.001    
+lr_weights:   0.001    
+lr_output_scaling:   0.1   
+num_qubits:         3
+num_layers:         5
+ansatz:             hea
+init_method:        uniform
+observables:        global
+device:             default.qubit
+diff_method:        adjoint
+
+
+cuda: False
+

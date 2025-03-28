@@ -1,0 +1,25 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_mountaincar_classical
+wandb:                  True
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               10
+num_gpus:               0
+ray_num_trial_samples:  10
+cpus_per_worker:        3
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   MountainCar-v0
+
+# algorithm parameters
+agent:              REINFORCE_classical
+total_timesteps:    300000
+lr:                 0.001
+num_envs:           2
+seed:               None
+gamma:              0.99
+cuda: False
+save_model: True

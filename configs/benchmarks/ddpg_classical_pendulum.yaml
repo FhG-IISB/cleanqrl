@@ -1,0 +1,36 @@
+# general parameters
+trial_path:             logs
+trial_name:             ddpg_pendulum
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               1
+num_gpus:               0
+num_samples:            1
+cpus_per_worker:        1
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Pendulum-v1
+
+# algorithm parameters
+seed:               None
+agent:              ddpg_quantum_continuous_action
+total_timesteps:    200000
+learning_rate:       
+num_envs:           1
+gamma:              0.9
+buffer_size:        100000
+batch_size:         16
+exploration_noise:  0.1
+learning_starts:    1000
+policy_frequency:   2
+tau:                0.005
+num_qubits:         5
+num_layers:         5
+device:             lightning.qubit
+diff_method:        adjoint
+cuda: False
+save_model: True

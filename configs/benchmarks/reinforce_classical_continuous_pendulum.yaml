@@ -1,0 +1,27 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_pendulum_classical
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               1
+num_gpus:               0
+num_samples:  1
+cpus_per_worker:        1
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   Pendulum-v1
+
+# algorithm parameters
+seed:               42
+agent:              REINFORCE_classical_continuous_action
+total_timesteps:    200000
+lr:                 0.000025
+num_envs:           2
+seed:               42
+gamma:              0.99
+cuda: False
+save_model: True

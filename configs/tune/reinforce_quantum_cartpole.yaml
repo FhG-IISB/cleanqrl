@@ -1,0 +1,41 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_cartpole
+wandb:                  True
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               32
+num_gpus:               0
+num_samples:            3
+cpus_per_worker:        2
+gpus_per_worker:        0
+
+# environment parameters
+env_id:   CartPole-v1
+
+# algorithm parameters
+env_wrapper:        arctan
+agent:              REINFORCE_quantum
+total_timesteps:    200000
+lr_input_scaling:   #0.025
+  - grid_search
+  - float
+  - [0.01, 0.0025]  
+lr_weights:         #0.025
+  - grid_search
+  - float
+  - [0.01, 0.0025]    
+lr_output_scaling:  0.1    
+num_envs:           2
+seed:               None
+gamma:              0.99
+num_qubits:         4
+num_layers:         5
+ansatz:             hea
+init_method:        uniform
+observables:        global
+device:             lightning.qubit
+diff_method:        adjoint
+cuda:               False
+save_model:         False
