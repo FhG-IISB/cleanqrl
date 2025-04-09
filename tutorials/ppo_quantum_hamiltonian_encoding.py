@@ -1,3 +1,13 @@
+
+"""
+In this script we will show how cleanqrl code can be easily modified to allow for hamiltonian-based QRL, taken from https://arxiv.org/pdf/2405.07790.
+
+The idea is simple: Many combinatorial optimization problems can be formulated as QUBOs. What if we use the QUBO formulation of the problems to inspire
+the ansatz of the quantum circuit in QRL? This might improve performance by introducing problem-specific knowledge into the ansatz.
+
+This is an example of how to do this for the Knapsack problem, using the unbalanced penalization method to encode the inequality constraints.
+"""
+
 # This file is an adaptation from https://docs.cleanrl.dev/rl-algorithms/ppo/#ppopy
 import json
 import os
@@ -24,8 +34,19 @@ from jumanji.environments.packing.knapsack.generator import RandomGenerator
 from ray.train._internal.session import get_session
 from torch.distributions.categorical import Categorical
 
+"""
+The first step is to write a new wrapper for the Knapsack environment from jumanji to return the observation as a cost Hamiltonian of the problem.
 
-# We need to create a new wrapper for the TSP environment that retu
+This requires defining two functions: ```formulate_knapsack_qubo_unbalanced``` and ```convert_QUBO_to_ising```.
+
+The first function takes the weights and values of the items and the total budget, and returns the QUBO formulation of the problem-
+the second function takes the QUBO matrix and returns the Ising Hamiltonian, which is then passed to the agent to generate the quantum circuit.
+
+In this initial class we just rewrite the ```init```, ```reset``` and ```step``` methods of the original class.
+"""
+
+
+# We need to create a new wrapper for the TSP environment that returns
 # the observation into a cost hamiltonian of the problem.
 class JumanjiWrapperKnapsack(gym.Wrapper):
     def __init__(self, env):
@@ -73,6 +94,11 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
         state = np.hstack([h, J])
 
         return state, reward, False, truncate, info
+    
+    """
+    We also define the knapsack_optimal_value function, which is used to calculate the optimal value of the knapsack problem.
+    This then allows us to claculate the approximation ratio of the solutions found by the agent.
+    """
 
     def knapsack_optimal_value(self, weights, values, total_budget, precision=1000):
         """
@@ -118,6 +144,16 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
                 dp[w] = max(dp[w], dp[w - scaled_weights[i]] + values[i])
 
         return float(dp[scaled_capacity])
+    
+    """
+    This function is extremely important. As mentioned before, it formulates the problem as a QUBO.
+
+    This is mostly trivial, were it not for the inequality constraints. These, unlike other constraints, are harder to encode into QUBOs that,
+    by definition, are unconstrained. There are several ways of doing this. The most common one requires the use of slack variables, which
+    correspond to extra qubits in the QUBO. However, here we use the unbalanced penalization method from https://arxiv.org/pdf/2211.13914.
+    This method encodes the inequality constraints as the second-degree Taylor expansion of the exponential decay function. Effectively, it
+    requires no additional qubits, but the optimal solution may no longer be the global minimum of the QUBO.
+    """
 
     def formulate_knapsack_qubo_unbalanced(
         self, weights, values, total_budget, lambdas=None
@@ -177,6 +213,10 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
                 QUBO[int(parts[0]), int(parts[1])] = value / 2
                 QUBO[int(parts[1]), int(parts[0])] = value / 2
         return offset, QUBO
+    
+    """
+    This next function simply converts the QUBO matrix into the Ising Hamiltonian.
+    """
 
     def convert_QUBO_to_ising(self, offset, Q):
         """Convert the matrix Q of Eq.3 into Eq.13 elements J and h"""
@@ -224,6 +264,10 @@ def make_env(env_id, config):
 
     return thunk
 
+"""
+The ansatz of this script is also different. In particular, it is based on the cost Hamiltonian of the problem.
+
+"""
 
 def cost_hamiltonian_ansatz(
     x, input_scaling, weights, wires, layers, num_actions, agent_type
@@ -258,7 +302,10 @@ def cost_hamiltonian_ansatz(
         return [qml.expval(qml.PauliZ(i)) for i in range(num_actions)]
     elif agent_type == "critic":
         return [qml.expval(qml.PauliZ(0))]
-
+    
+"""
+The remainder of the code is unchanged from the original ```ppo_quantum_jumanji.py``` implementation.
+"""
 
 class PPOAgentQuantumJumanji(nn.Module):
     def __init__(self, envs, config):
