@@ -38,11 +38,11 @@ class DQNAgentClassical(nn.Module):
     def __init__(self, observation_size, num_actions):
         super().__init__()
         self.network = nn.Sequential(
-            nn.Linear(observation_size, 64),
+            nn.Linear(observation_size, 120),
             nn.ReLU(),
-            nn.Linear(64, 64),
+            nn.Linear(120, 84),
             nn.ReLU(),
-            nn.Linear(64, num_actions),
+            nn.Linear(84, num_actions),
         )
 
     def forward(self, x):

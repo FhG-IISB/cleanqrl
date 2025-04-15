@@ -9,7 +9,7 @@ from cleanqrl_utils.train import train_agent
 
 if __name__ == "__main__":
     # Specify the path to the config file
-    config_path = "configs/reinforce_quantum.yaml"
+    config_path = "configs/tutorials/graph_encoding.yaml"
 
     # Load the config file
     with open(config_path) as f:

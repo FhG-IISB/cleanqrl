@@ -1,7 +1,7 @@
 # general parameters
 trial_path:             logs
 trial_name:             dqn_tsp
-wandb:                  True
+wandb:                  False
 project_name:           cleanqrl
 
 # ray tune parameters
@@ -14,7 +14,7 @@ gpus_per_worker:        0
 
 # environment parameters
 env_id:   TSP-v1
-num_cities: 4
+num_cities: 3
 
 # algorithm parameters
 agent:               DQN_quantum_jumanji

@@ -48,6 +48,7 @@ from cleanqrl.reinforce_quantum_continuous_action import (
 )
 from cleanqrl.reinforce_quantum_discrete_state import reinforce_quantum_discrete_state
 from cleanqrl.reinforce_quantum_jumanji import reinforce_quantum_jumanji
+from tutorials.graph_encoding import reinforce_quantum_jumanji as reinforce_quantum_jumanji_graph_encoding
 
 agent_switch = {
     "ppo_classical": ppo_classical,
@@ -74,6 +75,7 @@ agent_switch = {
     "reinforce_quantum_continuous_action": reinforce_quantum_continuous_action,
     "reinforce_quantum_discrete_state": reinforce_quantum_discrete_state,
     "reinforce_quantum_jumanji": reinforce_quantum_jumanji,
+    "reinforce_quantum_jumanji_graph_encoding": reinforce_quantum_jumanji_graph_encoding,
 }
 
 

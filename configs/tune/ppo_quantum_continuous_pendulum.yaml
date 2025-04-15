@@ -43,7 +43,7 @@ lr_weights:         #0.025
   - grid_search
   - float
   - [0.025, 0.001]     
-lr_output_scaling:   0.1   
+lr_output_scaling:   0.01   
 num_qubits:         3
 num_layers:         5
 ansatz:             hea

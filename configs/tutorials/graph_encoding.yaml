@@ -1,0 +1,34 @@
+# general parameters
+trial_path:             logs
+trial_name:             reinforce_tsp
+wandb:                  True
+project_name:           cleanqrl
+
+# ray tune parameters
+ray_local_mode:         False
+num_cpus:               24
+num_gpus:               0
+num_samples:            2
+cpus_per_worker:        2
+gpus_per_worker:        0
+
+# environment parameters
+env_id:  TSP-v1
+num_cities: 4
+
+# algorithm parameters
+env_wrapper:        arctan
+agent:              REINFORCE_quantum_jumanji_graph_encoding
+total_timesteps:    200000
+lr_input_scaling:   0.001  
+lr_weights:         0.0025
+lr_output_scaling:  0.1    
+num_envs:           2
+seed:               42
+gamma:              0.99
+num_qubits:         4
+num_layers:         5
+device:             lightning.qubit
+diff_method:        adjoint
+cuda:               False
+save_model:         False
