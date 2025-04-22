@@ -48,12 +48,7 @@ def calculate_city_distances(city_coordinates, num_cities):
 # QUANTUM CIRCUIT: This function contains the key differenz to the standard apporach
 def graph_encoding_ansatz(x, input_scaling, weights, num_qubits, num_layers, num_actions):
 
-    
-    # distancesa = calculate_city_distances_a(x[:, num_actions: num_actions+num_actions*2], num_actions)
     distances = torch.from_numpy(calculate_city_distances(x[:, num_actions: num_actions+num_actions*2], num_actions))
-    # distances = calculate_city_distances_c(x[:, num_actions: num_actions+num_actions*2], num_actions)
-    # distancess = calculate_city_distances(x[0, num_actions: num_actions+num_actions*2], num_actions)
-
     annotations_mask = x[:, :num_actions]
     annotations = torch.zeros_like(annotations_mask, dtype=float)
     # Set values to 0 if negative, π if positive
@@ -76,38 +71,6 @@ def graph_encoding_ansatz(x, input_scaling, weights, num_qubits, num_layers, num
             qml.RX(weights[layer]*annotations[:, i], wires=i)
 
     return [qml.expval(qml.PauliX(i)) for i in range(num_actions)]
-
-# QUANTUM CIRCUIT: define your ansatz here:
-# def parametrized_quantum_circuit(
-#     x, input_scaling, weights, num_qubits, num_layers, num_actions
-# ):
-
-#     # This block needs to be adapted depending on the environment.
-#     # The input vector is of shape [4*num_actions] for the Knapsack:
-#     # [action mask, selected items, values, weights]
-
-#     annotations = x[:, num_qubits : num_qubits * 2]
-#     values_kp = x[:, num_qubits * 2 : num_qubits * 3]
-#     weights_kp = x[:, 3 * num_qubits :]
-
-#     for layer in range(num_layers):
-#         for block, features in enumerate([annotations, values_kp, weights_kp]):
-#             for i in range(num_qubits):
-#                 qml.RX(input_scaling[layer, block, i] * features[:, i], wires=[i])
-
-#             for i in range(num_qubits):
-#                 qml.RY(weights[layer, block, i], wires=[i])
-
-#             for i in range(num_qubits):
-#                 qml.RZ(weights[layer, block, i + num_qubits], wires=[i])
-
-#             if num_qubits == 2:
-#                 qml.CZ(wires=[0, 1])
-#             else:
-#                 for i in range(num_qubits):
-#                     qml.CZ(wires=[i, (i + 1) % num_qubits])
-
-#     return [qml.expval(qml.PauliZ(wires=i)) for i in range(num_actions)]
 
 
 # ALGO LOGIC: initialize your agent here:

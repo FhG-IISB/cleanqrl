@@ -20,19 +20,16 @@ from ray.train._internal.session import get_session
 from torch.distributions.categorical import Categorical
 from wrapper_jumanji import create_jumanji_env
 
-
+import sympy as sp
 import gymnasium as gym
 import jumanji
-import jumanji.wrappers
+import jumanji.wrappers as wrappers
 import numpy as np
 from jumanji.environments import TSP, Knapsack, Maze
 from jumanji.environments.packing.knapsack.generator import (
     RandomGenerator as RandomGeneratorKnapsack,
 )
-from jumanji.environments.routing.maze.generator import (
-    RandomGenerator as RandomGeneratorMaze,
-)
-from jumanji.environments.routing.tsp.generator import UniformGenerator
+
 
 # We need to create a new wrapper for the TSP environment that returns
 # the observation into a cost hamiltonian of the problem.
@@ -238,7 +235,7 @@ def make_env(env_id, config):
         if env_id == "Knapsack-v1":
             num_items = config.get("num_items", 5)
             total_budget = config.get("total_budget", 2)
-            generator_knapsack = RandomGenerator(
+            generator_knapsack = RandomGeneratorKnapsack(
                 num_items=num_items, total_budget=total_budget
             )
             env = Knapsack(generator=generator_knapsack)
@@ -526,8 +523,9 @@ if __name__ == "__main__":
         project_name: str = "cleanqrl"  # If wandb is used, name of the wandb-project
 
         # Environment parameters
-        env_id: str = "TSP-v1"  # Environment ID
-        num_cities: int = 3
+        env_id: str = "Knapsack-v1"  # Environment ID
+        num_items: int = 3
+        total_budget: float = 1.5
 
         # Algorithm parameters
         num_envs: int = 1  # Number of environments
