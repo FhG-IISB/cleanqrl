@@ -18,10 +18,10 @@ is_slippery: False
 
 # algorithm parameters
 agent:              reinforce_classical_discrete_state
-total_timesteps:    200000
-lr:                 0.01 
-num_envs:           5
+total_timesteps:    20000
+lr:                 0.001 
+num_envs:           1
 seed:               42
-gamma:              0.99
+gamma:              0.95
 cuda:               False
 save_model:         False

@@ -7,23 +7,22 @@ project_name:           cleanqrl
 # ray tune parameters
 ray_local_mode:         False
 num_cpus:               20
-num_gpus:               0
+num_gpus:               0s
 num_samples:            5
 cpus_per_worker:        1
 gpus_per_worker:        0
 
 # environment parameters
-env_id:   FrozenLake-v1
-is_slippery: False
-
-# Noise Model parameters
-depolarizing_p:       
-  - grid_search
-  - float
-  - [0.0, 0.01, 0.1, 0.25, 0.5]
+env_id:         CustomMazeEnv
+maze_name:      neumann_c
+state_encoding: binary
+P:              -200
+R:              200
+N:              -10
+n:              3
 
 # algorithm parameters
-agent:              REINFORCE_quantum_discrete_state_noise_model
+agent:              REINFORCE_quantum_discrete_state_custom_maze
 total_timesteps:    20000
 lr_input_scaling:   0.025  
 lr_weights:         0.025 
@@ -31,9 +30,9 @@ lr_output_scaling:  0.1
 num_envs:           1
 seed:               42
 gamma:              0.95
-num_qubits:         4
+num_qubits:         5
 num_layers:         5
-device:             default.mixed
-diff_method:        backprop
+device:             lightning.qubit
+diff_method:        adjoint
 cuda:               False
 save_model:         False

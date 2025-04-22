@@ -18,13 +18,13 @@ is_slippery: False
 
 # algorithm parameters
 agent:              reinforce_quantum_discrete_state
-total_timesteps:    200000
+total_timesteps:    20000
 lr_input_scaling:   0.025  
 lr_weights:         0.025 
 lr_output_scaling:  0.1  
-num_envs:           5
+num_envs:           1
 seed:               42
-gamma:              0.99
+gamma:              0.95
 num_qubits:         4
 num_layers:         5
 state_encoding:     binary

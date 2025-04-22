@@ -8,7 +8,7 @@ project_name:           cleanqrl
 ray_local_mode:         False
 num_cpus:               24
 num_gpus:               0
-num_samples:            2
+num_samples:            5
 cpus_per_worker:        2
 gpus_per_worker:        0
 
@@ -19,10 +19,10 @@ num_cities: 4
 # algorithm parameters
 env_wrapper:        arctan
 agent:              REINFORCE_quantum_jumanji_graph_encoding
-total_timesteps:    200000
-lr_input_scaling:   0.001  
+total_timesteps:    100000
+lr_input_scaling:   0.0025  
 lr_weights:         0.0025
-lr_output_scaling:  0.1    
+lr_output_scaling:  0.01    
 num_envs:           2
 seed:               42
 gamma:              0.99
