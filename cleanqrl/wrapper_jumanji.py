@@ -1,17 +1,13 @@
 import itertools
-from copy import deepcopy
-
 import gymnasium as gym
 import jumanji
 import jumanji.wrappers
 import numpy as np
-from jumanji.environments import TSP, Knapsack, Maze
+from jumanji.environments import TSP, Knapsack
 from jumanji.environments.packing.knapsack.generator import (
     RandomGenerator as RandomGeneratorKnapsack,
 )
-from jumanji.environments.routing.maze.generator import (
-    RandomGenerator as RandomGeneratorMaze,
-)
+
 from jumanji.environments.routing.tsp.generator import UniformGenerator
 
 
@@ -36,13 +32,11 @@ class JumanjiWrapperTSP(gym.Wrapper):
                 info["approximation_ratio"] = info["episode"]["r"] / optimal_tour_length
                 if info["episode"]["l"] < num_cities:
                     info["approximation_ratio"] -= 10
-                # else:
-                #     if info['approximation_ratio'] > -1.1:
-                #         print(info['approximation_ratio'])
             self.episodes += 1
         else:
             info = dict()
         self.previous_state = state
+
         return state, reward, False, truncate, info
 
     def tsp_compute_optimal_tour(self, nodes):
@@ -56,13 +50,7 @@ class JumanjiWrapperTSP(gym.Wrapper):
         return optimal_tour_length
 
     def tsp_compute_tour_length(self, nodes, tour):
-        """
-        Compute length of a tour, including return to start node.
-        (If start node is already added as last node in tour, 0 will be added to tour length.)
-        :param nodes: all nodes in the graph in form of (x, y) coordinates
-        :param tour: list of node indices denoting a (potentially partial) tour
-        :return: tour length
-        """
+
         tour_length = 0
         for i in range(len(tour)):
             if i < len(tour) - 1:
@@ -95,8 +83,6 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
                 )
                 info["optimal_value"] = optimal_value
                 info["approximation_ratio"] = info["episode"]["r"] / optimal_value
-            # if info['approximation_ratio'] > 0.9:
-            #     print(info['approximation_ratio'])
             self.episodes += 1
         else:
             info = dict()
@@ -105,18 +91,7 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
         return state, reward, False, truncate, info
 
     def knapsack_optimal_value(self, weights, values, total_budget, precision=1000):
-        """
-        Solves the knapsack problem with float weights and values between 0 and 1.
 
-        Args:
-            weights: List or array of item weights (floats between 0 and 1)
-            values: List or array of item values (floats between 0 and 1)
-            capacity: Maximum weight capacity of the knapsack (float)
-            precision: Number of discretization steps for weights (default: 1000)
-
-        Returns:
-            The maximum value that can be achieved
-        """
         # Convert to numpy arrays
         weights = np.array(weights)
         values = np.array(values)
@@ -150,29 +125,6 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
         return float(dp[scaled_capacity])
 
 
-class JumanjiWrapperMaze(gym.Wrapper):
-    def __init__(self, env, config):
-        super().__init__(env)
-        self.constant_maze = config.get("constant_maze", False)
-        self.seed = config.get("seed", 42)
-        self.episodes = 0
-
-    def reset(self, **kwargs):
-        if self.constant_maze:
-            output = self.env.reset(seed=self.seed)
-        else:
-            output = self.env.reset()
-        print(output)
-        return output
-
-    def step(self, action):
-        state, reward, terminate, truncate, info = self.env.step(action)
-        if not truncate:
-            info = dict()
-        self.previous_state = state
-        return state, reward, False, truncate, info
-
-
 def create_jumanji_env(env_id, config):
     if env_id == "TSP-v1":
         num_cities = config.get("num_cities", 5)
@@ -185,12 +137,6 @@ def create_jumanji_env(env_id, config):
             num_items=num_items, total_budget=total_budget
         )
         env = Knapsack(generator=generator_knapsack)
-
-    elif env_id == "Maze-v0":
-        num_rows = config.get("num_rows", 4)
-        num_cols = config.get("num_cols", 4)
-        generator_maze = RandomGeneratorMaze(num_cols=num_cols, num_rows=num_rows)
-        env = Maze(generator=generator_maze)
     else:
         try:
             env = jumanji.make(env_id)
@@ -209,7 +155,5 @@ def create_jumanji_env(env_id, config):
         env = JumanjiWrapperTSP(env)
     elif env_id == "Knapsack-v1":
         env = JumanjiWrapperKnapsack(env)
-    elif env_id == "Maze-v0":
-        env = JumanjiWrapperMaze(env, config)
 
     return env

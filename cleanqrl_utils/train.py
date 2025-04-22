@@ -48,8 +48,11 @@ from cleanqrl.reinforce_quantum_continuous_action import (
 )
 from cleanqrl.reinforce_quantum_discrete_state import reinforce_quantum_discrete_state
 from cleanqrl.reinforce_quantum_jumanji import reinforce_quantum_jumanji
-from tutorials.graph_encoding import reinforce_quantum_jumanji as reinforce_quantum_jumanji_graph_encoding
 
+from tutorials.graph_encoding import reinforce_quantum_jumanji as reinforce_quantum_jumanji_graph_encoding
+from tutorials.hamiltonian_encoding import reinforce_quantum_jumanji as reinforce_quantum_jumanji_hamiltonian_encoding
+from tutorials.noise_models import reinforce_quantum_discrete_state as reinforce_quantum_discrete_state_noise_model
+from tutorials.custom_maze import reinforce_quantum_discrete_state as reinforce_quantum_discrete_state_custom_maze
 agent_switch = {
     "ppo_classical": ppo_classical,
     "ppo_classical_continuous_action": ppo_classical_continuous_action,
@@ -76,8 +79,10 @@ agent_switch = {
     "reinforce_quantum_discrete_state": reinforce_quantum_discrete_state,
     "reinforce_quantum_jumanji": reinforce_quantum_jumanji,
     "reinforce_quantum_jumanji_graph_encoding": reinforce_quantum_jumanji_graph_encoding,
+    "reinforce_quantum_jumanji_hamiltonian_encoding": reinforce_quantum_jumanji_hamiltonian_encoding,
+    "reinforce_quantum_discrete_state_noise_model": reinforce_quantum_discrete_state_noise_model,
+    "reinforce_quantum_discrete_state_custom_maze": reinforce_quantum_discrete_state_custom_maze,
 }
-
 
 def train_agent(config):
     try:

@@ -174,12 +174,9 @@ def reinforce_classical_discrete_state(config):
         for reward in reversed(rewards):
             cumulative_reward = reward + gamma * cumulative_reward
             discounted_rewards.insert(0, cumulative_reward)
-
-        # Normalize rewards
-        discounted_rewards = torch.tensor(np.array(discounted_rewards)).to(device)
-        discounted_rewards = (discounted_rewards - discounted_rewards.mean()) / (
-            discounted_rewards.std() + 1e-9
-        )
+        discounted_rewards = [
+            torch.tensor(Gt, dtype=torch.float32) for Gt in discounted_rewards
+        ]
 
         # Calculate policy gradient loss
         loss = torch.cat(
@@ -231,18 +228,19 @@ if __name__ == "__main__":
         # General parameters
         trial_name: str = "reinforce_classical_discrete_state"  # Name of the trial
         trial_path: str = "logs"  # Path to save logs relative to the parent directory
-        wandb: bool = False  # Use wandb to log experiment data
+        wandb: bool = True  # Use wandb to log experiment data
         project_name: str = "cleanqrl"  # If wandb is used, name of the wandb-project
 
         # Environment parameters
         env_id: str = "FrozenLake-v1"  # Environment ID
+        is_slippery: bool = False  # Whether the environment is slippery (for FrozenLake)
 
         # Algorithm parameters
-        num_envs: int = 2  # Number of environments
+        num_envs: int = 1  # Number of environments
         seed: int = None  # Seed for reproducibility
-        total_timesteps: int = 100000  # Total number of timesteps
-        gamma: float = 0.99  # discount factor
-        lr: float = 0.01  # Learning rate for network weights
+        total_timesteps: int = 20000  # Total number of timesteps
+        gamma: float = 0.95  # discount factor
+        lr: float = 0.001  # Learning rate for network weights
         cuda: bool = False  # Whether to use CUDA
         save_model: bool = True  # Save the model after the run
 
