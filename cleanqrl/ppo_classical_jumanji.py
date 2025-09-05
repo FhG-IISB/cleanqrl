@@ -213,12 +213,13 @@ def ppo_classical_jumanji(config):
                         metrics["episode_length"] = infos["episode"]["l"].tolist()[idx]
                         metrics["global_step"] = global_step
                         if "approximation_ratio" in infos.keys():
-                            metrics["approximation_ratio"] = infos[
-                                "approximation_ratio"
-                            ][idx]
-                            episode_approximation_ratio.append(
-                                metrics["approximation_ratio"]
-                            )
+                            if infos["approximation_ratio"][idx]:
+                                metrics["approximation_ratio"] = infos[
+                                    "approximation_ratio"
+                                ][idx]
+                                episode_approximation_ratio.append(
+                                    metrics["approximation_ratio"]
+                                )
                         log_metrics(config, metrics, report_path)
 
                 if global_episodes % print_interval == 0 and not ray.is_initialized():
@@ -357,7 +358,7 @@ if __name__ == "__main__":
         num_cities: int = 4
 
         # Algorithm parameters
-        total_timesteps: int = 1000000  # Total timesteps for the experiment
+        total_timesteps: int = 100000  # Total timesteps for the experiment
         learning_rate: float = 3e-4  # Learning rate of the optimizer
         num_envs: int = 5  # Number of parallel environments
         seed: int = None  # Seed for reproducibility
