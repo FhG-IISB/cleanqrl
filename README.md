@@ -179,7 +179,7 @@ This will create an additional folder for the [wandb](https://wandb.ai/site) log
 
 ## Contact and Community
 
-We want to grow as a community, so posting [Github Issues](https://github.com/fhg-iisb-mki/cleanqrl/issues) and PRs are very welcome! If you are missing and algorithms or have a specific problem to which you want to tailor your QRL algorithms but fail to do so, you can also create a feature request!
+We want to grow as a community, so posting [Github Issues](https://github.com/fhg-iisb/cleanqrl/issues) and PRs are very welcome! If you are missing and algorithms or have a specific problem to which you want to tailor your QRL algorithms but fail to do so, you can also create a feature request!
 
 ## Citing CleanQRL
 
