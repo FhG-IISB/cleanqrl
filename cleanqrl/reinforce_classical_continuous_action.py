@@ -179,7 +179,7 @@ def reinforce_classical_continuous_action(config):
         discounted_rewards = (discounted_rewards - discounted_rewards.mean()) / (
             discounted_rewards.std() + 1e-9
         )
-
+        discounted_rewards = discounted_rewards.unsqueeze(2)
         # Calculate policy gradient loss
         loss = torch.cat(
             [-log_prob * Gt for log_prob, Gt in zip(log_probs, discounted_rewards)]
@@ -234,10 +234,10 @@ if __name__ == "__main__":
         project_name: str = "cleanqrl"  # If wandb is used, name of the wandb-project
 
         # Environment parameters
-        env_id: str = "Pendulum-v1"  # Environment ID
+        env_id: str = "Hopper-v5"  # Environment ID
 
         # Algorithm parameters
-        num_envs: int = 2  # Number of environments
+        num_envs: int = 1  # Number of environments
         seed: int = None  # Seed for reproducibility
         total_timesteps: int = 200000  # Total number of timesteps
         gamma: float = 0.9  # discount factor

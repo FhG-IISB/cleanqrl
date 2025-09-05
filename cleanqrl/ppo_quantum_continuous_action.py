@@ -482,23 +482,22 @@ if __name__ == "__main__":
     @dataclass
     class Config:
         # General parameters
-        trial_name: str = "ppo_quantum_continuous_action"  # Name of the trial
+        trial_name: str = "ppo_quantum_continuous_action_hopper"  # Name of the trial
         trial_path: str = "logs"  # Path to save logs relative to the parent directory
-        wandb: bool = False  # Use wandb to log experiment data
+        wandb: bool = True  # Use wandb to log experiment data
         project_name: str = "cleanqrl"  # If wandb is used, name of the wandb-project
 
         # Environment parameters
-        env_id: str = "Pendulum-v1"  # Environment ID
+        env_id: str = "Hopper-v5"  # Environment ID
 
         # Algorithm parameters
-        total_timesteps: int = 1000000  # Total timesteps for the experiment
-        learning_rate: float = 3e-4  # Learning rate of the optimizer
+        total_timesteps: int = 500000  # Total timesteps for the experiment
         num_envs: int = 1  # Number of parallel environments
         seed: int = None  # Seed for reproducibility
         num_steps: int = 2048  # Steps per environment per policy rollout
         anneal_lr: bool = True  # Toggle for learning rate annealing
-        lr_input_scaling: float = 0.01  # Learning rate for input scaling
-        lr_weights: float = 0.01  # Learning rate for variational parameters
+        lr_input_scaling: float = 0.0025  # Learning rate for input scaling
+        lr_weights: float = 0.0025  # Learning rate for variational parameters
         lr_output_scaling: float = 0.01  # Learning rate for output scaling
         gamma: float = 0.9  # Discount factor gamma
         gae_lambda: float = 0.95  # Lambda for general advantage estimation
@@ -512,8 +511,8 @@ if __name__ == "__main__":
         max_grad_norm: float = 0.5  # Maximum gradient norm for clipping
         target_kl: float = None  # Target KL divergence threshold
         cuda: bool = False  # Whether to use CUDA
-        num_qubits: int = 3  # Number of qubits
-        num_layers: int = 2  # Number of layers in the quantum circuit
+        num_qubits: int = 11  # Number of qubits
+        num_layers: int = 4  # Number of layers in the quantum circuit
         device: str = "lightning.qubit"  # Quantum device
         diff_method: str = "adjoint"  # Differentiation method
         save_model: bool = True  # Save the model after the run

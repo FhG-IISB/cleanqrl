@@ -12,6 +12,9 @@ from jumanji.environments.routing.tsp.generator import UniformGenerator
 
 
 class JumanjiWrapperTSP(gym.Wrapper):
+    '''
+    Optimal approximation ration is -1.0, optimal reward depends on the episode.
+    '''
     def __init__(self, env):
         super().__init__(env)
         self.episodes = 0
@@ -73,11 +76,11 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
     def step(self, action):
         state, reward, terminate, truncate, info = self.env.step(action)
         if truncate:
-            if self.episodes % 100 == 0:
+            if self.episodes % 10 == 0:
                 num_items = self.env.unwrapped.num_items
                 total_budget = self.env.unwrapped.total_budget
-                values = self.previous_state[num_items * 2 : num_items * 3]
-                weights = self.previous_state[-num_items:]
+                values = state[num_items * 2 : num_items * 3]
+                weights = state[-num_items:] 
                 optimal_value = self.knapsack_optimal_value(
                     weights, values, total_budget
                 )
