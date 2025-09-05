@@ -190,12 +190,14 @@ def reinforce_classical_jumanji(config):
                     metrics["policy_loss"] = loss.item()
                     metrics["SPS"] = int(global_step / (time.time() - start_time))
                     if "approximation_ratio" in infos.keys():
-                        metrics["approximation_ratio"] = infos["approximation_ratio"][
-                            idx
-                        ]
-                        episode_approximation_ratio.append(
-                            metrics["approximation_ratio"]
-                        )
+                        if infos["approximation_ratio"][idx]:
+                            metrics["approximation_ratio"] = infos["approximation_ratio"][
+                                idx
+                            ]
+                            episode_approximation_ratio.append(
+                                metrics["approximation_ratio"]
+                            )
+        
                     log_metrics(config, metrics, report_path)
 
             if global_episodes % print_interval == 0 and not ray.is_initialized():

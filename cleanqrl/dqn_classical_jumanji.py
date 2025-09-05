@@ -160,6 +160,10 @@ def dqn_classical_jumanji(config: dict):
             )
         else:
             q_values = q_network(torch.Tensor(obs).to(device))
+            # action masking: 
+            # action_mask = torch.tensor(obs[:, :envs.single_action_space.n], dtype=torch.float32)
+            # large_negative = -1e2  # Large negative value for invalid actions
+            # q_values_masked = q_values + (1 - action_mask) * large_negative            
             actions = torch.argmax(q_values, dim=1).cpu().numpy()
 
         # TRY NOT TO MODIFY: execute the game and log data.
@@ -176,12 +180,13 @@ def dqn_classical_jumanji(config: dict):
                     metrics["episode_length"] = infos["episode"]["l"].tolist()[idx]
                     metrics["global_step"] = global_step
                     if "approximation_ratio" in infos.keys():
-                        metrics["approximation_ratio"] = infos["approximation_ratio"][
-                            idx
-                        ]
-                        episode_approximation_ratio.append(
-                            metrics["approximation_ratio"]
-                        )
+                        if infos["approximation_ratio"][idx]:
+                            metrics["approximation_ratio"] = infos["approximation_ratio"][
+                                idx
+                            ]
+                            episode_approximation_ratio.append(
+                                metrics["approximation_ratio"]
+                            )
                     log_metrics(config, metrics, report_path)
 
             if global_episodes % print_interval == 0 and not ray.is_initialized():
@@ -260,7 +265,7 @@ if __name__ == "__main__":
         project_name: str = "cleanqrl"  # If wandb is used, name of the wandb-project
 
         # Environment parameters
-        env_id: str = "TSP-v1"  # Environment ID
+        env_id: str = "TSP-v1"  # Environment ID 
         num_cities: int = 4
 
         # Algorithm parameters
@@ -268,7 +273,7 @@ if __name__ == "__main__":
         seed: int = None  # Seed for reproducibility
         buffer_size: int = 10000  # Size of the replay buffer
         total_timesteps: int = 100000  # Total number of timesteps
-        start_e: float = 1.0  # Starting value of epsilon for exploration
+        start_e: float = 0.01  # Starting value of epsilon for exploration
         end_e: float = 0.01  # Ending value of epsilon for exploration
         exploration_fraction: float = 0.1  # Fraction of total timesteps for exploration
         learning_starts: int = 1000  # Timesteps before learning starts

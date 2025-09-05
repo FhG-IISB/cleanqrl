@@ -254,6 +254,7 @@ def reinforce_quantum_continuous_action(config):
         discounted_rewards = (discounted_rewards - discounted_rewards.mean()) / (
             discounted_rewards.std() + 1e-9
         )
+        discounted_rewards = discounted_rewards.unsqueeze(2)
 
         # Calculate policy gradient loss
         loss = torch.cat(
