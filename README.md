@@ -1,8 +1,8 @@
 # CleanQRL (Clean Quantum Reinforcement Learning)
 
 
-[<img src="https://img.shields.io/badge/license-MIT-blue">](https://github.com/fhg-iisb-mki/cleanqrl?tab=License-1-ov-file)
-[![docs](https://img.shields.io/github/deployments/vwxyzjn/cleanrl/Production?label=docs&logo=vercel)](https://fhg-iisb-mki.github.io/cleanqrl-docs/)
+[<img src="https://img.shields.io/badge/license-MIT-blue">](https://github.com/fhg-iisb/cleanqrl?tab=License-1-ov-file)
+[![docs](https://img.shields.io/github/deployments/vwxyzjn/cleanrl/Production?label=docs&logo=vercel)](https://fhg-iisb.github.io/cleanqrl-docs/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
@@ -24,7 +24,7 @@ What we are missing compared to **[CleanRL](https://github.com/vwxyzjn/cleanrl)*
 * 📹 Videos of Gameplay Capturing
 
 
-You can read more about **CleanQRL** in [our upcoming paper]().
+You can read more about **CleanQRL** in [our upcoming paper](https://arxiv.org/pdf/2507.07593).
 
 # Get started
 
@@ -33,7 +33,7 @@ You can read more about **CleanQRL** in [our upcoming paper]().
 To run experiments locally, you need to clone the repository and install a python environment.
 
 ```bash
-git clone https://github.com/fhg-iisb-mki/cleanqrl.git
+git clone https://github.com/fhg-iisb/cleanqrl.git
 cd cleanqrl
 conda env create -f environment.yaml
 ```
@@ -46,7 +46,7 @@ Each agent can be run as a single file, either from the parent directory or dire
 
 ```
 conda activate cleanqrl
-python cleanrl/reinforce_quantum.py 
+python cleanqrl/reinforce_quantum.py 
 ```
 
 or go directly into the folder and execute
@@ -106,7 +106,7 @@ As you can see, the config is divided into 3 parts:
 
 * **General parameters**: Here the name of your experiment as well as the logging path is defined. All metrics will be logged in a ```result.json``` file in the result folder which will have the time of the experiment execution as a prefix. You can also use [wandb](https://wandb.ai/site) for enhanced metric logging. 
 * **Environment parameters**: This is in the simplest case just the string of the gym environment. For jumanji environments as well as for your custom environments, you can also specify additional parameters here (see #Tutorials for details).
-* **Algorithms parameters**: All algorithms hyperparameters are specified here. For details on the parameters see [the algorithms section]()
+* **Algorithms parameters**: All algorithms hyperparameters are specified here. For details on the parameters see [the algorithms section](https://fhg-iisb.github.io/cleanqrl-docs/algorithms/overview/)
 
 Once you execute the file, it will create the subfolders and copy the config which is used for the experiment in the folder:
 
@@ -159,7 +159,7 @@ You will need to login to your [wandb](https://wandb.ai/site) account before you
 
 ```bash
 wandb login # only required for the first time
-python cleanrl/reinforce_quantum.py \
+python cleanqrl/reinforce_quantum.py \
 ```
 
 This will create an additional folder for the [wandb](https://wandb.ai/site) logging and you can inspect your experiment data also online:
@@ -183,8 +183,16 @@ We want to grow as a community, so posting [Github Issues](https://github.com/fh
 
 ## Citing CleanQRL
 
-If you use **CleanQRL** in your work, please cite our [paper]:
+If you use **CleanQRL** in your work, please cite our [paper](https://fhg-iisb.github.io/cleanqrl-docs/algorithms/overview/):
 
+```bibtex
+@article{kruse2025cleanqrl,
+  title={CleanQRL: Lightweight Single-file Implementations of Quantum Reinforcement Learning Algorithms},
+  author={Kruse, Georg and Coelho, Rodrigo and Rosskopf, Andreas and Wille, Robert and Lorenz, Jeanette Miriam},
+  journal={arXiv preprint arXiv:2507.07593},
+  year={2025}
+}
+```
 
 ## Citing CleanRL
 
