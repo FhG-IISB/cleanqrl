@@ -69,6 +69,11 @@ class JumanjiWrapperKnapsack(gym.Wrapper):
         super().__init__(env)
         self.episodes = 0
 
+    def reset(self, **kwargs):
+        state, info = self.env.reset(**kwargs)
+
+        return state, info
+
     def step(self, action):
         state, reward, terminate, truncate, info = self.env.step(action)
         if truncate:
